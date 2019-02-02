@@ -127,3 +127,17 @@ style_grams = {layer: gram_matrix(style_features[layer]) for layer in style_feat
 # it is a good idea to start of with the target as a copy of our *content* image
 # then iteratively change its style
 target = content.clone().requires_grad_(True).to(device)
+
+
+# weights for each style layer 
+# weighting earlier layers more will result in *larger* style artifacts
+# notice we are excluding `conv4_2` our content representation
+style_weights = {'conv1_1': 1.,
+                 'conv2_1': 0.8,
+                 'conv3_1': 0.5,
+                 'conv4_1': 0.3,
+                 'conv5_1': 0.1}
+
+# you may choose to leave these as is
+content_weight = 1  # alpha
+style_weight = 1e6  # beta
