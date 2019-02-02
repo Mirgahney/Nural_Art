@@ -99,3 +99,20 @@ def get_features(image, model, layers=None):
             features[layers[name]] = x
             
     return features
+
+### Gram Matrix ###
+def gram_matrix(tensor):
+    """ Calculate the Gram Matrix of a given tensor 
+        Gram Matrix: https://en.wikipedia.org/wiki/Gramian_matrix
+    """
+    
+    ## get the batch_size, depth, height, and width of the Tensor
+    ## reshape it, so we're multiplying the features for each channel
+    ## calculate the gram matrix
+    b,d,h,w = tensor.shape
+    mat = tensor.view(d,-1)
+    
+    gram = torch.mm(mat,mat.t())
+    
+    return gram 
+
