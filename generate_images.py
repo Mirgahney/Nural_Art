@@ -116,3 +116,14 @@ def gram_matrix(tensor):
     
     return gram 
 
+# get content and style features only once before forming the target image
+content_features = get_features(content, vgg)
+style_features = get_features(style, vgg)
+
+# calculate the gram matrices for each layer of our style representation
+style_grams = {layer: gram_matrix(style_features[layer]) for layer in style_features}
+
+# create a third "target" image and prep it for change
+# it is a good idea to start of with the target as a copy of our *content* image
+# then iteratively change its style
+target = content.clone().requires_grad_(True).to(device)
