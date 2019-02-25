@@ -202,6 +202,9 @@ plt.savefig('Images/result.jpg')
 # main function
 def main():
 
+	# need to be read fomr cl
+	alpha = 1
+	beta = 1e6
 	# loading images
 	# load in content and style image
 	content = load_image(content_path).to(device)
@@ -225,3 +228,10 @@ def main():
 	# it is a good idea to start of with the target as a copy of our *content* image
 	# then iteratively change its style
 	target = content.clone().requires_grad_(True).to(device)
+
+	# you may choose to leave these as is
+	content_weight =  alpha  # alpha
+	style_weight = beta  # beta
+
+	# for displaying the target image, intermittently
+	show_every = 400
