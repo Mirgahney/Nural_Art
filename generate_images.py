@@ -235,3 +235,50 @@ def main():
 
 	# for displaying the target image, intermittently
 	show_every = 400
+
+	### Main Iteration Loop ### 
+	# iteration hyperparameters
+	optimizer = optim.Adam([target], lr=0.003)
+	steps = 2000  # decide how many iterations to update your image (5000)
+	for ii in range(1, steps+1):
+    
+	    ## TODO: get the features from your target image    
+	    ## Then calculate the content loss
+	    target_features = get_features(target, vgg)
+	    content_loss = content_loss = torch.mean((target_features['conv4_2'] - content_features['conv4_2'])**2)
+	    
+	    # the style loss
+	    # initialize the style loss to 0
+	    style_loss = 0
+	    # iterate through each style layer and add to the style loss
+	    for layer in style_weights:
+	        # get the "target" style representation for the layer
+	        target_feature = target_features[layer]
+	        _, d, h, w = target_feature.shape
+	        
+	        ## TODO: Calculate the target gram matrix
+	        target_gram = gram_matrix(target_feature)
+	        
+	        ## TODO:  get the "style" style representation
+	        style_gram = style_grams[layer]
+	        ## TODO: Calculate the style loss for one layer, weighted appropriately
+	        layer_style_loss = style_weights[layer]*torch.mean((target_gram - style_gram)**2)
+	        
+	        # add to the style loss
+	        style_loss += layer_style_loss / (d * h * w)
+	        
+	        
+	    ## TODO:  calculate the *total* loss
+	    total_loss = content_weight*content_loss + style_weight*style_loss
+	    
+	    ## -- do not need to change code, below -- ##
+	    # update your target image
+	    optimizer.zero_grad()
+	    total_loss.backward()
+	    optimizer.step()
+	    
+	    # display intermediate images and print the loss
+	    if  ii % show_every == 0:
+	        print('Total loss: ', total_loss.item())
+	        plt.imshow(im_convert(target))
+	        plt.show()
