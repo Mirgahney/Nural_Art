@@ -3,6 +3,8 @@ Implementation of [Image Style Transfer Using Convolutional Neural Networks](htt
 
 In this paper, style transfer uses the features found in the 19-layer [VGG Network](https://arxiv.org/pdf/1409.1556.pdf), which is comprised of a series of convolutional and pooling layers, and a few fully-connected layers. In the image below, the convolutional layers are named by stack and their order in the stack. <i>Conv_1_1</i> is the first convolutional layer that an image is passed through, in the first stack. <i>Conv_2_1</i> is the first convolutional layer in the second stack. The deepest convolutional layer in the network is <i>conv_5_4</i>.
 
+![VGG_Conv_layers](/Images/vgg19_convlayers.png)
+
 ## Requirements :
 * Torch >= 0.04
 * Torchvision >= 0.2.1
