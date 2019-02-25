@@ -205,6 +205,11 @@ def main():
 	# need to be read fomr cl
 	alpha = 1
 	beta = 1e6
+
+	content_path = ''
+	style_path = ''
+	save_path = ''
+	
 	# loading images
 	# load in content and style image
 	content = load_image(content_path).to(device)
@@ -233,7 +238,8 @@ def main():
 	content_weight =  alpha  # alpha
 	style_weight = beta  # beta
 
-	# for displaying the target image, intermittently
+	# for displaying the target image, intermittently, 
+	## Also need to red from cl
 	show_every = 400
 
 	### Main Iteration Loop ### 
@@ -282,3 +288,9 @@ def main():
 	        print('Total loss: ', total_loss.item())
 	        plt.imshow(im_convert(target))
 	        plt.show()
+
+	# display content and final, target image and save the result
+	fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 10))
+	ax1.imshow(im_convert(content))
+	ax2.imshow(im_convert(target))
+	plt.savefig(save_path)
