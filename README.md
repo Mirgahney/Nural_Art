@@ -1,5 +1,7 @@
 # Nural_Art
-Implementation of Artistic Style Transfer with Artificial Neural Network.
+Implementation of [Image Style Transfer Using Convolutional Neural Networks](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf).
+
+In this paper, style transfer uses the features found in the 19-layer [VGG Network](https://arxiv.org/pdf/1409.1556.pdf)
 
 ## Requirements :
 * Torch >= 0.04
