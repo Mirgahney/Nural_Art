@@ -198,3 +198,30 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 10))
 ax1.imshow(im_convert(content))
 ax2.imshow(im_convert(target))
 plt.savefig('Images/result.jpg')
+
+# main function
+def main():
+
+	# loading images
+	# load in content and style image
+	content = load_image(content_path).to(device)
+	# Resize style to match content, makes code easier
+	style = load_image(style_path, shape=content.shape[-2:]).to(device)
+
+	# display the images
+	fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 10))
+	# content and style ims side-by-side
+	ax1.imshow(im_convert(content))
+	ax2.imshow(im_convert(style))
+
+	# get content and style features only once before forming the target image
+	content_features = get_features(content, vgg)
+	style_features = get_features(style, vgg)
+
+	# calculate the gram matrices for each layer of our style representation
+	style_grams = {layer: gram_matrix(style_features[layer]) for layer in style_features}
+
+	# create a third "target" image and prep it for change
+	# it is a good idea to start of with the target as a copy of our *content* image
+	# then iteratively change its style
+	target = content.clone().requires_grad_(True).to(device)
